@@ -9,9 +9,11 @@
 </head>
 
 <style>
+
     *{
         text-align: center;
         font-family:Arial, Helvetica, sans-serif;
+        scroll-behavior: smooth !important;
     }
 
     button{all: unset;cursor: pointer;}
@@ -425,7 +427,11 @@
                     ayahTranslation.setAttribute("id","ayahTranslation")
                     ayahTranslation.innerHTML = translationJson["translations"][t]["text"]
                     document.getElementById("surahId"+(t+1)).appendChild(ayahTranslation)
-                }    
+                }   
+                
+                if (!window.location.href.split("#")[1]==""){
+                    document.getElementById(window.location.href.split("#")[1]).scrollIntoView()
+                }
             }
         </script>
 
