@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Time Until Iftar</title>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+
 </head>
 
  <style>
@@ -542,7 +544,7 @@
 
 <body>
 
-    <div class="reminderContainer" id="reminderContainer">
+    <!--<div class="reminderContainer" id="reminderContainer">
         <button onclick="toggleReminder()">
             <div class="reminderHolder">
                 <p class="reminderIcon">?</p>
@@ -606,7 +608,7 @@
             }
         </script>
 
-    </div>
+    </div>-->
 
 
     <!--<div class="navbarContainer">
@@ -837,6 +839,27 @@
                     <p class="otherText hadithText" id="hadithText"></p>
                 </div>
 
+                <div class="container" id="duaContainer">
+                    <h3 id="dua">Prayer</h3>
+                    <h3 id="duaDesc" class="otherTitles"></h3>
+                    <p id="duaArb" class="otherText surahTextArb"></p>
+                    <p class="otherText duaText" id="duaText"></p>
+
+                    <script>
+                        fetch('database/duas.json')
+                            .then((response) => response.json())
+                            .then((json) => getDua(json));
+
+                        function getDua(duaData){
+                            duaInd = Math.floor(Math.random()*duaData.length)
+
+                            document.getElementById("duaArb").innerHTML = duaData[duaInd]["dua"]
+                            document.getElementById("duaDesc").innerHTML = duaData[duaInd]["desc"]
+                            document.getElementById("duaText").innerHTML = duaData[duaInd]["eng"]
+                        }
+                    </script>
+                </div>
+
                 <div class="container" id="nameContainer">
                     
                     <h3 id="nameTitle"></h3>
@@ -878,24 +901,45 @@
                 </div>-->
 
 
-                <!--<div class="container" id="datesContainer">
+                <div class="container" id="datesContainer">
                     <h3 id="islamic-dates">Islamic Dates</h3>
                     <div class="datesHolder">
 
-                        <div class="date"><b id="26-january">26 January:</b> <p id="Laylatal-Raghaib">Laylat al-Raghaib</p></div>
-                        <div class="date"><b id="17-february">17 February:</b> <p id="AlIsra’walMi’raj"> Al Isra’ wal Mi’raj</p></div>
-                        <div class="date"><b id="6-march">6 March:</b> <p id="Shab-e-Barat"> Shab-e-Barat</p></div>
-                        <div class="date"><b id="23-march">23 March:</b> <p id="Ramadan-begin"> Ramadan begin</p></div>
-                        <div class="date"><b id="17-april">17 April:</b> <p id="LaylatulQadr"> Laylatul Qadr</p></div>
-                        <div class="date"><b id="20-april">20 April:</b> <p id="EidalFitrEve"> Eid al Fitr Eve</p></div>
-                        <div class="date"><b id="21-23-april">21-23 April:</b> <p id="EidAlFitr"> Eid al Fitr</p></div>
-                        <div class="date"><b id="27-june">27 June:</b> <p id="dayofarafah"> Day of 'Arafah</p></div>
-                        <div class="date"><b id="28-june-1-july">28 June - 1 July:</b> <p id="eidaladha"> Eid al Adha</p></div>
-                        <div class="date"><b id="19-july">19 July:</b> <p id="islamicnewyear"> Islamic New Year</p></div>
-                        <div class="date"><b id="28-july">28 July:</b> <p id="dayofashura"> Day of Ashura</p></div>
-                        <div class="date"><b id="26-september">26 September:</b> <p id="rabialawwal"> Rabi’ Al-Awwal</p></div>
+                        <div class="date"><b id="26-january">Feb 07, 2024:</b> <p id="Laylatal-Raghaib"> Lailat al Miraj</p></div>
+                        <div class="date"><b id="17-february">Feb 25, 2024:</b> <p id="AlIsra’walMi’raj"> Lailat al Bara'ah</p></div>
+                        <div class="date"><b id="6-march">Mar 11, 2024:</b> <p id="Shab-e-Barat"> Ramadan Start</p></div>
+                        <div class="date"><b id="23-march">Apr 06, 2024:</b> <p id="Ramadan-begin"> Laylatul Qadr</p></div>
+                        <div class="date"><b id="17-april">Apr 10, 2024:</b> <p id="LaylatulQadr"> 	Eid-al-Fitr</p></div>
+                        <div class="date"><b id="20-april">Jun 15, 2024:</b> <p id="EidalFitrEve"> 	Waqf al Arafa - Hajj</p></div>
+                        <div class="date"><b id="21-23-april">Jun 16, 2024:</b> <p id="EidAlFitr"> 	Eid-al-Adha</p></div>
+                        <div class="date"><b id="27-june">Jul 07, 2024:</b> <p id="dayofarafah"> Hijra - Islamic New Year</p></div>
+                        <div class="date"><b id="28-june-1-july">Jul 17, 2024:</b> <p id="eidaladha"> Day of Ashura / Muharram</p></div>
+                        <div class="date"><b id="19-july">Sep 16, 2024:</b> <p id="islamicnewyear"> Milad un Nabi</p></div>
                     </div>
-                </div>-->
+                </div>
+
+                <div class="container" id="editorContainer">
+                    <h3 id="islamic-dates">Editors Choises</h3>
+                    <h4 style="margin-top: -10px; color: rgb(46, 46, 46);">Duas/Surahs recommended by us</h4>
+                    <div class="datesHolder">
+                        <a style="font-size: 25px; color: #f12a11;text-decoration: underline;" href="https://www.elramadan.com/surah.html?Ad-Duhaa?93" target="_blank">Ad-Duhaa</a>
+                        <a style="font-size: 25px; color: #f12a11;text-decoration: underline;" href="https://www.elramadan.com/surah.html?Ash-Sharh?94" target="_blank">Ash-Sharh - The Relief</a>
+                        <a style="font-size: 25px; color: #f12a11;text-decoration: underline;" href="https://www.elramadan.com/surah.html?Al-Baqarah?2#surahId214" target="_blank">"Indeed, Allah’s help is ˹always˺ near."</a>
+                        <a style="font-size: 25px; color: #f12a11;text-decoration: underline;" href="https://www.elramadan.com/surah.html?Az-Zumar?39#surahId53" target="_blank">"Do not lose hope in Allah"</a>
+                        <a style="font-size: 25px; color: #f12a11;text-decoration: underline;" href="https://www.elramadan.com/surah.html?Al-Hijr?15#surahId55" target="_blank">"Do not be one of those who lose hope"</a>
+                    </div>
+                </div>
+
+                <div class="container" id="plansContainer">
+                    <h3 id="islamic-dates">Future Plans</h3>
+                    <h4 style="margin-top: -10px; color: rgb(46, 46, 46);">Coming Soon (hopefully, if laziness doesnt get the better of us</h4>
+                    <div class="datesHolder">
+                        <p style="font-size: 15px;">Language Support (Turkish & German)</p>
+                        <p style="font-size: 15px;">Bug fixes</p>
+                        <p style="font-size: 15px;">And more</p>
+
+                    </div>
+                </div>
 
             </div>   
         </div>
@@ -914,7 +958,8 @@
         function updateSet(){
             var ezan = new Audio('assets/ezan_sa.mp3');
 
-            var lang = document.querySelector('input[name="lang"]:checked').value;
+            //var lang = document.querySelector('input[name="lang"]:checked').value;
+            lang = "eng"
 
             var surprise = document.querySelector('input[name="surprise"]:checked')
             if (surprise){
@@ -1081,7 +1126,8 @@
 
                     timesFired = 0
                     clearInterval(x); // reset timer
-                    document.getElementById("timer").innerHTML = iftarTimeLang[document.querySelector('input[name="lang"]:checked').value]; // change text to IFTAR VAKTI
+                    //document.getElementById("timer").innerHTML = iftarTimeLang[document.querySelector('input[name="lang"]:checked').value]; // change text to IFTAR VAKTI
+                    document.getElementById("timer").innerHTML = "IFTAR"; // change text to IFTAR VAKTI
                 }else{
                     ezan.pause() 
                     ezan.currentTime = 0; // reset ezan sound
