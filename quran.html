@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8">
+        <title>LeMustache</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=yes, viewport-fit=cover">
+    
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    
+    <!------------------------HEADER & FOOTER LOAD--------------------------------------------------------------------------------------------->
+    
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+        </script>
+    
+    </head>
+
+<style>
+
+.mainBody{
+        width: 100%;
+        height: 100%;
+
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto 20vh auto 50vh;
+        grid-template-areas: 
+        "header"
+        "top"
+        "main"
+        "footer";
+    }
+
+
+
+.topFrame{
+    grid-area: "top";
+    width: 100%;
+    height: 100%; 
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: #f12a11;
+    background-image: url(assets/tilings.svg);   
+    background-size: 500px;
+    background-position: 100px;
+    background-blend-mode:soft-light;
+
+    color: white;
+}
+
+.mainFrame{
+    justify-self: center;
+    width: 90%;
+}
+
+.surahHolder{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-self: center;
+
+    width: 100%;
+    height: fit-content;
+
+    display: grid;
+    grid-template-columns: repeat(2, 45%);
+
+    gap: 20px;
+    justify-content: center;
+
+}
+
+@media screen and (max-width:1000px) {
+    .surahHolder{
+        display: flex;
+        flex-direction: column;
+    }
+
+}
+
+
+
+.surah{
+    width: 100%;
+    height: 100px;
+
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+
+    border: rgb(218, 218, 218) solid 2px;
+    border-radius: 20px;
+
+    gap: 20px;
+    
+    text-decoration: none;
+
+    -webkit-box-shadow: 0px 0px 26px -8px rgba(0,0,0,0.26); 
+box-shadow: 0px 0px 26px -8px rgba(0,0,0,0.26);
+    
+}
+
+.surah:hover{
+    cursor: pointer;
+    border: #f12a11 solid 2px;
+}
+
+
+.surahTitles{
+    border-left: 2px gainsboro solid;
+    padding-left: 10px;
+    margin-left: -10px;
+}
+
+.surahTitle{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+.surahInd{
+    background-color: #f12b11;
+    width: 10%;
+
+    text-align: center;
+
+    height: 75%;
+
+    color: white;
+
+    border-radius: 20px;
+
+    font-size: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-left: 10px;
+
+}
+
+.surahTitleEng{
+    margin-top: -15px; color: rgb(78, 78, 78);
+}
+
+@media screen and  (min-width:1000px) and (max-width:1200px) {
+    .surahInd{
+        width: 20%;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .surahInd{
+        width: 20%;
+    }
+}
+
+
+
+</style>
+
+<body>
+    <div class="mainBody">
+
+        <div class="header" id="header" style="grid-area: header;"></div>
+        <div class="topFrame"> 
+            <h1 style="font-size: 50px;">Quran</h1>
+        </div>
+
+        <div class="mainFrame">
+            <div class="surahHolder" id="surahHolder">
+                
+                <script>
+                    surahHolder = document.getElementById("surahHolder")
+
+                    fetch('https://api.quran.com/api/v4/chapters')
+                        .then((response) => response.json())
+                        .then((json) => getSurahs(json["chapters"]));
+                    
+
+                    function getSurahs(surahData){
+                        for(i=0;i<surahData.length;i++){
+                            console.log(surahData[i])
+
+                            surah = document.createElement("a");
+                            surah.classList.add("surah");
+                            surah.setAttribute("href","/surah.html?"+surahData[i]["name_simple"]+"?"+(i+1))
+                            surah.setAttribute("target","_blank");
+                            surah.setAttribute("id","surah");
+                            surahHolder.appendChild(surah)
+
+                            surahInd = document.createElement("div")
+                            surahInd.classList.add("surahInd")
+                            surahInd.setAttribute("id","surahInd")
+                            surahInd.innerHTML = String(i+1)
+                            surah.appendChild(surahInd)
+
+                            surahTitles = document.createElement("div")
+                            surahTitles.classList.add("surahTitles")
+                            surah.appendChild(surahTitles)
+
+                            surahTitleArb = document.createElement("h3")
+                            surahTitleArb.classList.add("surahTitle")
+                            surahTitleArb.setAttribute("id","surahTitle")
+                            surahTitleArb.innerHTML = surahData[i]["name_simple"]
+                            surahTitles.appendChild(surahTitleArb)
+
+                            surahTitleEng = document.createElement("h4")
+                            surahTitleEng.classList.add("surahTitle")
+                            surahTitleEng.classList.add("surahTitleEng")
+                            surahTitleEng.setAttribute("id","surahTitle")
+                            surahTitleEng.innerHTML = surahData[i]["translated_name"]["name"]
+                            surahTitles.appendChild(surahTitleEng)
+                        }
+                    }
+                </script>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

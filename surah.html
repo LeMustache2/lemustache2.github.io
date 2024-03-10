@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+</head>
+
+<style>
+    *{
+        text-align: center;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+
+    button{all: unset;cursor: pointer;}
+
+    .mainFrame{
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .surahHolder{
+        width: 75%;
+        height: fit-content;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        gap: 15px;
+    }
+
+    .surah{
+        width: 100%;
+        min-height: 200px;
+        height: fit-content;
+
+        background-color: gainsboro;
+        border-right: #f12a11 solid 5px;
+        border-radius: 10px;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ayahBttns{
+        margin-top: 10px;
+        width: 100%;
+        height: 50px;
+
+        display: flex;
+        align-items: center;
+    }
+
+    .ayahInd{
+        background-color: #f12b11;
+        width: 5%;
+
+        text-align: center;
+
+        height: 75%;
+
+        color: white;
+
+        border-radius: 20px;
+
+        font-size: 30px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-left: 10px;
+    }
+
+    @media screen and  (min-width:1000px) and (max-width:1100px) {
+        .ayahInd{
+            width: 5%;
+        }
+    }
+
+    @media screen and (max-width:700px) {
+        .ayahInd{
+            width: 20%;
+        }
+
+        .surahHolder{
+            width: 100%;
+        }
+    }
+
+    .playAyahBttn{margin-left: 20px;height: 100%;}
+
+    .ayahArb{
+        font-size: 50px;
+        width: 85%;
+    }
+
+    #ayahTranslation{color: rgb(44, 44, 44);}
+
+</style>
+
+<body>
+    <div class="mainFrame" id="mainFrame">
+        <h2 style="font-size: 80px;" id="surahTitleArb"></h2>
+        <h3 style="font-size: 45px;margin-top: -90px;" id="surahTitle"></h3>
+        <h3 style="font-size: 20px; margin-top: -45px; color: gray;" id="surahTitleIng"></h3>
+
+        <div class="surahHolder" id="surahHolder">
+
+            <div style="width: 100%; display: flex; flex-direction: row; margin-bottom: -25px;">
+                <div style="width: 100%; display: flex; height: 50px;"><button style="font-size: 20px;" onclick="playSurah()" id="playSurahBttn">▶</button></div>
+                <p style="font-size: 20px; color: gray" id="surahAyahCount"></p>
+            </div>
+
+            <div class="surah">
+                <div class="ayahBttns">
+                    <div class="ayahInd">0</div>
+                    <button class="playAyahBttn" onclick="playBesmele()" id="playAyahBttn0">▶</button>
+                </div>
+                <h2 id="ayahArb" class="ayahArb">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h2>
+                <hr width="75%" opacity=".5" color="#f12a11">
+                <h3 id="ayahTranslation">In the name of Allah, most benevolent, ever-merciful.</h3>
+            </div>
+
+        </div>
+
+
+        <script id="getSurahDet">
+
+            const surahId = window.location.href.split("?")[2];
+            console.log(surahId)
+
+            fetch('https://api.quran.com/api/v4/chapters/'+surahId)
+                .then((response) => response.json())
+                .then((json) => test(json));
+
+            function test(data){
+                surahData = data["chapter"]
+                surahLength = surahData["verses_count"]
+                document.getElementById("surahTitle").innerHTML = surahData["name_simple"]
+                document.getElementById("surahTitleArb").innerHTML = surahData["name_arabic"]
+                document.getElementById("surahTitleIng").innerHTML = surahData["translated_name"]["name"]
+                document.getElementById("surahAyahCount").innerHTML = surahData["verses_count"]+" Ayahs"
+            }
+
+
+
+          /*  surahHolder = document.getElementById("surahHolder")
+
+            surah = document.createElement("div")
+            surah.classList.add("surah")
+
+            surahHolder.appendChild(surah)
+
+            ayahInd = document.createElement("div")
+            ayahInd.classList("ayahInd")
+            surah.appendChild(ayahInd)*/
+
+        </script>
+
+        <script id="playSurarrrh">
+            var playing=false
+            const ayahLinks = new Array();
+            k = 1
+
+            function playSurah(){ // I know this code is stupid but it gets the job done -- used to be able to play the surah again
+                k = 1
+                playSurah2()
+            }
+                        
+            function playSurah2(){  // use to play surah
+
+                if (k<=surahLength && playing==false){
+
+                    $.get("https://api.quran.com/api/v4/recitations/2/by_ayah/"+surahId+":"+k, function(response) { // get surah audio    
+                            //console.log("https://verses.quran.com/"+response["audio_files"][0]["url"])
+                            ayahLinks.push("https://verses.quran.com/"+response["audio_files"][0]["url"])
+
+                            surahAudio = new Audio("https://verses.quran.com/"+response["audio_files"][0]["url"]);
+                            surahAudio.play()
+                            playing = true
+                            document.getElementById("ayahArb"+(k-1)).style.color = "#f12a11"
+                            document.getElementById("playSurahBttn").innerHTML = "||"
+
+                            surahAudio.addEventListener("ended",function audioEnded(){playing=false;document.getElementById("ayahArb"+(k-1)).style.color = "black";k=k+1;document.getElementById("playSurahBttn").innerHTML = "▶";playSurah2()})
+                    }, "json")
+
+                }else{
+                    document.getElementById("ayahArb"+(k-1)).style.color = "black"
+                    document.getElementById("playSurahBttn").innerHTML = "▶"
+                    playing = false
+                    k=1
+                    surahAudio.pause()
+                }
+
+                playing = false
+
+            }
+
+            /*function playSurah(){
+
+                $.get("https://api.quran.com/api/v4/chapter_recitations/2/"+surahId, function(response) { // get surah audio        
+
+                if (playing==false){ // play
+                    surahAudio = new Audio(response.audio_file.audio_url);
+
+                    playing = true
+
+                    surahAudio.play();
+                    
+                    surahAudio.addEventListener('ended', function() {
+                        document.getElementById("playSurahBttn").innerHTML = "▶"
+                        surahAudio.pause();
+                        playing = false
+                    }, false);
+
+
+                    document.getElementById("playSurahBttn").innerHTML = "||"
+                }else{ // stop
+                    surahAudio.currentTime = 0; 
+                    surahAudio.pause();
+                    playing = false
+
+                    document.getElementById("playSurahBttn").innerHTML = "▶"
+                }
+
+                }, "json")
+
+                }
+        */
+            function playBesmele(){
+
+                if (playing==false){ // play
+                    surahAudio = new Audio("https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001001.mp3");
+
+                    surahAudio.play();
+                    playing = true
+                    
+                    surahAudio.addEventListener('ended', function() {
+                        document.getElementById("playAyahBttn0").innerHTML = "▶"
+                        surahAudio.pause();
+                        playing = false
+                    }, false);
+
+
+                    document.getElementById("playAyahBttn0").innerHTML = "||"
+                }else{ // stop
+                    surahAudio.currentTime = 0; 
+                    surahAudio.pause();
+                    playing = false
+
+                    document.getElementById("playAyahBttn0").innerHTML = "▶"
+                }
+
+            }
+
+
+            function playAyah(ayahId){
+
+            $.get("https://api.quran.com/api/v4/recitations/2/by_ayah/"+surahId+":"+ayahId, function(response) { // get surah audio        
+                console.log(response)
+
+            if (playing==false){ // play
+                surahAudio = new Audio("https://verses.quran.com/"+response["audio_files"][0]["url"]);
+
+                playing = true
+
+                surahAudio.play();
+                
+                surahAudio.addEventListener('ended', function() {
+                    document.getElementById("playAyahBttn"+ayahId).innerHTML = "▶"
+                    document.getElementById("ayahArb"+(ayahId-1)).style.color = "black"
+                    surahAudio.pause();
+                    playing = false
+                }, false);
+
+
+                document.getElementById("playAyahBttn"+ayahId).innerHTML = "||"
+                document.getElementById("ayahArb"+(ayahId-1)).style.color = "#f12a11"
+            }else{ // stop
+                surahAudio.currentTime = 0; 
+                surahAudio.pause();
+                playing = false
+
+                document.getElementById("playAyahBttn"+ayahId).innerHTML = "▶"
+                document.getElementById("ayahArb"+(ayahId-1)).style.color = "black"
+            }
+
+            }, "json")
+
+}
+        </script>
+
+        <!--        <script id="playSurah">
+
+
+            var playing=false
+
+            function playSurah(){
+
+                $.get("https://api.quran.com/api/v4/chapter_recitations/2/"+surahId, function(response) { // get surah audio        
+
+                if (playing==false){ // play
+                    surahAudio = new Audio(response.audio_file.audio_url);
+
+                    playing = true
+
+                    surahAudio.play();
+                    
+                    surahAudio.addEventListener('ended', function() {
+                        document.getElementById("playSurahBttn").innerHTML = "▶"
+                        surahAudio.pause();
+                        playing = false
+                    }, false);
+
+
+                    document.getElementById("playSurahBttn").innerHTML = "||"
+                }else{ // stop
+                    surahAudio.currentTime = 0; 
+                    surahAudio.pause();
+                    playing = false
+
+                    document.getElementById("playSurahBttn").innerHTML = "▶"
+                }
+
+                }, "json")
+
+                }
+        
+            function playBesmele(){
+
+                if (playing==false){ // play
+                    surahAudio = new Audio("https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001001.mp3");
+
+                    surahAudio.play();
+                    playing = true
+                    
+                    surahAudio.addEventListener('ended', function() {
+                        document.getElementById("playAyahBttn0").innerHTML = "▶"
+                        surahAudio.pause();
+                        playing = false
+                    }, false);
+
+
+                    document.getElementById("playAyahBttn0").innerHTML = "||"
+                }else{ // stop
+                    surahAudio.currentTime = 0; 
+                    surahAudio.pause();
+                    playing = false
+
+                    document.getElementById("playAyahBttn0").innerHTML = "▶"
+                }
+
+            }
+
+        </script>-->
+
+        <script id="getAyahs">
+
+            fetch('https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number='+surahId)
+                .then((response) => response.json())
+                .then((json) => getAyahs(json));
+
+            function getAyahs(ayahData){
+                surahHolder = document.getElementById("surahHolder")
+
+                for (i=0;i<ayahData["verses"].length;i++){
+                    surah = document.createElement("div")
+                    surah.classList.add("surah")
+                    surah.setAttribute("id","surahId"+(i+1))
+                    surahHolder.appendChild(surah)
+
+                    ayahBttns = document.createElement("div")
+                    ayahBttns.classList.add("ayahBttns")
+                    surah.appendChild(ayahBttns)
+
+                    ayahInd = document.createElement("div")
+                    ayahInd.classList.add("ayahInd")
+                    ayahInd.innerHTML = i+1
+                    ayahBttns.appendChild(ayahInd)
+
+                    playAyahBttn = document.createElement("button")
+                    playAyahBttn.classList.add("playAyahBttn")
+                    playAyahBttn.setAttribute("id","playAyahBttn"+(i+1))
+                    playAyahBttn.setAttribute("onclick","playAyah("+String((i+1))+")")
+                    playAyahBttn.innerHTML = "▶"
+                    ayahBttns.appendChild(playAyahBttn)
+                    
+                    ayahArb = document.createElement("ayahArb")
+                    ayahArb.setAttribute("class","ayahArb")
+                    ayahArb.setAttribute("id","ayahArb"+i)
+                    ayahArb.innerHTML = ayahData["verses"][i]["text_uthmani"]
+                    surah.appendChild(ayahArb)
+
+                    hr = document.createElement("hr")
+                    hr.setAttribute("width","75%")
+                    hr.setAttribute("opacity",".5")
+                    hr.setAttribute("color","#f12a11")
+                    surah.appendChild(hr)
+
+                }
+                translate()
+            }
+
+        </script>
+
+       <script id="getTranslations">
+            function translate(){
+                fetch('https://api.quran.com/api/v4/quran/translations/131?chapter_number='+surahId)
+                        .then((translationResponse) => translationResponse.json())
+                        .then((translationJson) => translation(translationJson));
+            }
+
+            function translation(translationJson){
+                for (t=0;t<translationJson["translations"].length;t++){
+                    ayahTranslation = document.createElement("h3")
+                    ayahTranslation.setAttribute("id","ayahTranslation")
+                    ayahTranslation.innerHTML = translationJson["translations"][t]["text"]
+                    document.getElementById("surahId"+(t+1)).appendChild(ayahTranslation)
+                }    
+            }
+        </script>
+
+    </div>
+
+    <!-- FIX AYAH AUDIO BUG -->
+</body>
+</html>
+

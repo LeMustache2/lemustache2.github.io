@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Until Iftar</title>
+
+</head>
+
+ <style>
+
+    *{
+        text-align: center;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+
+    a{
+        text-decoration: none;
+    }
+
+    .text{
+        margin-top: 7px;
+        margin-bottom: 1px;
+    }
+
+    button, button:focus{
+        outline: none;
+        border: 0px;
+    }
+
+    button:hover{
+        cursor: pointer;
+    }
+
+    .mainBody{
+        width: 100%;
+        min-height: fit-content;
+
+        margin-bottom: 100px;
+
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .timeTillContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        border-top: 10px #f12a11 solid;
+    }
+
+    .timeTillHolder{
+        width: fit-content;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .timeTillHolder .timeText{
+        font-size: 25px;
+    }
+
+    .timeTillHolder .cityandDate{
+        font-size: 17px;
+    }
+
+    .timeTillHolder .timer{
+        font-size: 90px;
+
+        align-self: center;
+        grid-area: time;
+    }
+
+    .prayerTimesContainer{
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+        
+        background-color: #f12a11;
+        background-image: url(assets/tilings.svg);   
+        background-size: 500px;
+        background-position: 100px;
+        background-blend-mode:soft-light;
+
+
+
+        color: white;
+
+        font-size: 20px;
+
+    }
+
+    .otherContainer{
+        display: flex;
+        justify-content: space-around;
+
+        height: fit-content;
+    }
+
+    .otherHolder{
+        margin-top: 20px;
+        display:flex;
+        flex-direction: column;
+
+        align-items: center;
+
+        height: fit-content;
+
+        gap: 15px;
+    }
+    
+    .container{
+        /*border: 2px solid rgba(255, 0, 0, 0.678);*/
+
+        /*background-color: rgba(199, 199, 199, 0.527);*/
+         background-color: rgba(238, 238, 238, 0.719);
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        width: 98%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 3px;
+
+        min-height: 300px; /* BURAYA BAK DİVLERİ GÜZELLEŞTİR */
+
+        -webkit-box-shadow: 0px 0px 26px -12px rgba(0, 0, 0, 0.425); 
+        box-shadow: 0px 0px 26px -12px rgba(0, 0, 0, 0.425);
+
+    }
+
+    
+
+    .container p{
+        margin: 3px;
+    }
+
+    .otherTitles{
+        margin-top: -10px;
+    }
+
+    .otherText{
+        line-height: 1.6;
+    }
+
+    .surahTextArb{
+        font-size: 35px;
+    }
+
+    .hadithText{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+
+    .titleButton button{
+        border: none;
+        background: none;
+
+        z-index: 3;
+    }
+
+    .quranRadioContainer{
+        display: flex;
+
+        flex-direction: column;
+        
+        align-items: center;
+    }
+
+    .QrRadioPlay{
+        background: none;
+
+        z-index: 2;
+    }
+
+    .quranRadioContCntr{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+
+        justify-content: center;
+
+        width: 80%;
+        height: 50px;
+
+        margin-bottom: 15px;
+    }
+
+    .QrDrpdwnBttn{
+        margin-top: 5px;
+
+        display: flex;
+        flex-direction: row;
+
+        align-items: center;
+        justify-content: center;
+
+        background: none;
+        outline: none;
+
+        width: 100%;
+
+        border: #dd270fa6 2px solid;
+        border-top: none;
+        border-bottom: none;
+
+        border-radius: 3px;
+    }
+
+    .QrRadioVolume{
+        accent-color: #f12a11;
+
+        width: 30%;
+
+        z-index: 2;
+    }
+
+    .datesHolder{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .datesHolder .date{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dateDay{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .linkHolder{
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 5px;
+    }
+
+    .linkHolder a{
+        text-decoration: none;
+        color: black;
+    }
+    
+
+    .footerContainer{
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+
+        justify-self: center;
+        align-self: center;
+        
+        font-size: 12px;
+
+        color: white;
+        text-decoration: none;
+
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        
+        z-index: 99;
+    }
+
+    .footerContainer a{
+        text-decoration: none;
+        color: white;
+        font-size: 12px;
+        
+    }
+
+    .reminderContainer{
+        position: fixed;
+
+        justify-self: right;
+        right: -5px;
+        margin-top: 50px;
+        align-self: flex-start;
+
+        min-width: fit-content;
+        max-height: fit-content;
+
+        color: white;
+
+        transition: 1s ease;
+
+        z-index: 3;
+
+    }
+
+    .reminderContainer button{
+        outline: none;
+        background:none;
+
+        color: white;
+    }
+
+    .reminderHolder{
+        display: flex;
+        background-color: rgba(255, 83, 53, 0.856);
+
+        border-radius: 10px 0px 0px 10px;
+    }
+
+    .reminderHolder p{
+        margin-left: 20px;
+    }
+
+    .reminderHolder button{
+        margin-left: 7px;
+
+        outline: none;
+        background: none;
+
+        color: white;
+    }
+
+    .reminderHolder .reminderContent{
+        width: 0px;
+        height: 0px;
+        max-width: fit-content;
+
+        transition: 1s ease;
+
+        margin-right: 20px;
+    }
+
+
+    .navbarContainer{
+        position: fixed;
+
+        justify-self: left;
+        left: 0;
+        margin-top: 75px;
+        align-self: flex-start;
+
+        width: 250px;
+        height: 400px;
+
+        color: white;
+
+        z-index: 2;
+
+    }
+
+    .navbarHolder{
+        display: flex;
+        height: 100%;
+        width: 100%;
+    }
+
+    .navbarButtonContainer{
+        width: 10%;
+        height: 25%;
+
+        background-color: rgba(255, 83, 53, 0.856);
+
+        border-radius: 0px 10px 10px 0px;
+
+        color: white;
+    }
+
+    .navbarContentContainer{
+        width: 0px;
+        min-height: fit-content;
+
+        background-color: rgba(255, 83, 53, 0.856);
+        color: white;
+
+        align-self: flex-start;
+
+        border-radius: 0px 0px 10px 0px;
+
+        transition: 1s ease;
+    }
+
+    .navbarContentHolder{
+        transition: .2s;
+        visibility: collapse;
+        opacity: 0;
+    }
+
+    .settingsContainer{
+        font-size: 13px;
+    }
+
+    .navbarLogoLink{
+        color: white;
+    }
+
+    .settingsHolder{
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .submitSetButton{
+        margin-top: 10px;
+        background-color: #f12b11af;
+        color: white;
+
+        width: 75%;
+        border-radius: 3px;
+    }
+
+    .creditsHolder{
+        display: flex;
+        margin-top: 10px;
+        width: 100%;
+
+        font-size: 13px;
+        justify-content: space-around;
+    }
+
+    .creditsHolder a{
+        color: white;
+    }
+
+    @media screen and (min-width:500px) {
+        .otherHolder{
+            align-items: flex-start;
+
+            display: grid;
+
+            grid-template-columns: 50% 50%;
+            grid-template-rows: auto;
+
+            width: 100%;
+        }
+
+        .mainBody{
+            grid-template-rows: 50% 10% 7% auto;
+        }
+
+    }
+
+    @media screen and (min-width:700px) {
+        .otherHolder{
+            width: 80%;
+        }
+
+        .navbarButtonContainer{
+            width: 30px;
+            height: 120px;
+        }
+
+        .prayerTimesContainer{
+            font-size: 25px;
+        }
+
+        .QrDrpdwnBttn{
+            width: 30%;
+        }
+
+    }
+
+    input{
+        border: none;
+        cursor: pointer;
+    }
+
+    input[type=text]{
+        cursor: text;
+    }
+
+    input[type=checkbox]{
+        border: none;
+    }
+
+    button{
+        cursor: pointer;
+    }
+
+    .submitSet:hover{
+        opacity: .75;
+    }
+
+    .surahReadBttns{
+        width: 75%;
+        height: 45px;
+
+        display: flex;
+        flex-direction: row;
+
+        align-items: center;
+        justify-content: space-evenly;
+
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .surahReadBttns a{
+        all: unset;
+     /*   border-left: #f12a11 solid 2px;
+        border-right: #f12a11 solid 2px;*/
+
+        background-color: #f12a11;
+
+        color: white;
+
+        margin-top: 15px;
+
+        width: 35%;
+        height: 100%;
+        
+        border-radius: 5px;
+
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+
+        display: flex;
+
+        -webkit-box-shadow: 0px 0px 26px -12px rgba(0, 0, 0, 0.425); 
+        box-shadow: 0px 0px 26px -12px rgba(0, 0, 0, 0.425);
+    }
+
+    .surahReadBttns a:hover{
+        cursor: pointer;
+        opacity: .7;
+        background-color: #f12b1148;
+    }
+
+ </style>
+
+<body>
+
+    <div class="reminderContainer" id="reminderContainer">
+        <button onclick="toggleReminder()">
+            <div class="reminderHolder">
+                <p class="reminderIcon">?</p>
+                <div class="reminderContent" id="reminderContent">
+                    <div class="reminderContentHolder" id="reminderContentHolder">
+                        <p class="reminderText" id="reminder-text">What did you do for God today?</p>
+                    </div>
+                </div>
+            </div>
+        </button>
+        
+        <script id="reminderScript">
+            var x = document.getElementById("reminderContent");
+            var y = document.getElementById("reminderContentHolder");
+
+            y.style.opacity = "0"
+            y.style.transitionDelay = ".6s"
+            y.style.transitionDuration = "1s"
+
+            document.getElementById("reminderContainer").onmouseover = function(){
+                x.style.width = "275px";
+
+                y.style.transitionDelay = ".6s"
+                y.style.transitionDuration = "1s"
+
+                y.style.visibility = "visible"
+                y.style.opacity = "1"
+            }
+
+            document.getElementById("reminderContainer").onmouseleave = function(){
+                x.style.width = "0px";
+
+                y.style.transitionDelay = "0.05s"
+                y.style.transitionDuration = "0.09s"
+
+                y.style.visibility = "collapsed"
+                y.style.opacity = "0"
+            }
+
+
+            function toggleReminder() {
+
+                if (x.style.width === "0px") {
+                    x.style.width = "275px";
+
+                    y.style.transitionDelay = ".6s"
+                    y.style.transitionDuration = "1s"
+
+                    y.style.visibility = "visible"
+                    y.style.opacity = "1"
+
+                } else {
+                    x.style.width = "0px";
+
+                    y.style.transitionDelay = "0.05s"
+                    y.style.transitionDuration = "0.09s"
+
+                    y.style.visibility = "collapsed"
+                    y.style.opacity = "0"
+                }
+            }
+        </script>
+
+    </div>
+
+
+    <!--<div class="navbarContainer">
+        <div class="navbarHolder">
+
+            <div class="navbarContentContainer" id="navbarContent">
+                <div class="navbarContentHolder" id="navbarContentHolder">
+                    <div class="navbarLogo" style="width: 100%;">
+                        <a href="https://lemustache.net" class="navbarLogoLink" target="_blank">
+                            <h3 style="margin-bottom: -3px;">LeMustache.net</h3>
+                            <hr width="90%" opacity=".3" color="#f12a11">
+                        </a>
+                    </div>
+
+                    <div class="settingsContainer">
+                        <div class="settingsHolder">
+                            <h4 style="text-decoration: underline white;font-size: 16px;" id="settings">Settings</h4>
+                            <div class="langSet">
+                                <p id="choose-language">Language</p>
+                                <input type="radio" name="lang" value="eng" checked>
+                                <label for="eng">🇬🇧</label><br>
+    
+                                <input type="radio" name="lang" value="tur">
+                                <label for="tur">🇹🇷</label><br>
+    
+                                <input type="radio" name="lang" value="de">
+                                <label for="de">🇩🇪</label><br>
+                            </div>
+
+                            <div class="citySet">
+                                <p id="choose-city">City</p>
+                                <datalist id="cityList" style="z-index:-1"></datalist>
+
+                                <input id="cityInput" type="text" list="cityList" oninput=cityChosen()></input>
+
+                                <script id="citySelector">
+                                    function cityChosen() {
+                                        // send the input to api (returns cities)
+                                        var citiesList = document.getElementById("cityList")
+                                        var cityInput = document.getElementById("cityInput")
+                            
+                                        $.get("https://api.teleport.org/api/cities/?search="+document.getElementById("cityInput").value).then(function(data){
+                                            // get the returned cities
+                                            for (var i = 0; i<data['_embedded']['city:search-results'].length; i++) { 
+                            
+                                                // get the names of the cities -> data['_embedded']['city:search-results'][i]['matching_full_name']
+                                                var CityName = data['_embedded']['city:search-results'][i]['matching_full_name'].split(",")[0]
+                                                var CityGeonameid = data['_embedded']['city:search-results'][i]['_links']['city:item']['href']
+                            
+                                                // check if city is already in the list
+                                                if (document.getElementById(CityName)){
+                                                    document.getElementById(CityName).remove() // remove the city if it is
+                                                }
+                            
+                                                // add city to list
+                                                const para = document.createElement("option"); 
+                                                para.appendChild(document.createTextNode(CityName)); // add text to citys element
+                                                para.setAttribute('id',CityName); // set id to CityName
+                                                para.setAttribute('geonameid',CityGeonameid); // set geonameid to link (to be able to get location later on)
+                            
+                                                document.getElementById("cityList").appendChild(para); // add city to parent
+                            
+                                                children = citiesList.children // get all cities 
+                            
+                                                for (i = 0; i < children.length; i++) { 
+                                                    // check if city is in the list
+                                                    if(cityInput.value.toUpperCase()==children[i].innerHTML.toUpperCase()){
+                                                        cityInput.placeholder=cityInput.value
+
+                                                        // var ramadanStart = new Date('Apr 02, 2022');
+                                                        //var today = new Date();
+                                                        // var ramazanDate = Math.round((today.getTime() - ramadanStart.getTime())/ (1000 * 3600 * 24)); // find the difference between the two dates and round it
+                                                        
+                                                        // update website
+                                                        // document.getElementById("cityAndDate").innerHTML = cityInput.value + " - " + ramazanDate
+
+                                                        // get details about city
+                                                        $.get(CityGeonameid).then(function(cityData){
+                                                            // get city time zone
+                                                            $.get(cityData['_links']['city:timezone']['href']).then(function(cityTimeZone){
+                                                                cityTimeZone = cityTimeZone['iana_name']
+                            
+                                                                // get city latitude and longtitude
+                                                                cityLat = cityData['location']['latlon']['latitude']
+                                                                cityLon = cityData['location']['latlon']['longitude']
+                            
+                                                                // clear input field
+                                                                document.getElementById("cityInput").value = ""
+                            
+                                                                // fire get prayer times function
+                                                                getPrayerTimes(cityLat, cityLon, cityTimeZone, CityName)
+                                                            })
+                                                        })
+                                                    }
+                                                }
+                                            }
+                                        })
+                                    }
+                                </script>
+                            
+                            </div>
+
+                            <div class="surpriseSet">
+                                <input type="checkbox" name="surprise" value="surprise" style="margin-top:15px;" id="surprise">
+                                <label for="surprise">Easter Eggs</label><br>
+                            </div>
+
+                            <div class="submitSet">
+                                <button class="submitSetButton" id="save" onclick="translatePage()">Save</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="creditsContainer">
+                        <hr width="90%" opacity=".5" color="#f12a11">
+                        <div class="creditsHolder">
+                            <a href="https://github.com/LeMoustache/LeMoustache.github.io/blob/main/time-till-iftar/sources" target="_blank">Sources</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="navbarButtonContainer" onclick="toggleNavbar()">
+                <div class="navbarButtonHolder">
+                    <div class="navbarButton" id="navbarButton">☰</div>
+                </div>
+            </button>
+
+            <script>
+                function toggleNavbar() {
+                    var x = document.getElementById("navbarContent");
+                    var y = document.getElementById("navbarContentHolder");
+                    if (x.style.width === "0px") {
+                        x.style.width = "85%";
+
+                        y.style.transitionDelay = ".3s"
+                        y.style.transitionDuration = ".6s"
+
+                        y.style.visibility = "visible"
+                        y.style.opacity = "1"
+                    } else {
+                        x.style.width = "0px";
+
+                        y.style.transitionDelay = "0.1s"
+                        y.style.transitionDuration = "0.1s"
+
+                        y.style.visibility = "collapse"
+                        y.style.opacity = "0"
+                    }
+                }
+            </script>
+
+        </div>
+    </div>-->
+    
+    <div class="mainBody">
+
+        <div class="timeTillContainer">
+            <div class="timeTillHolder">
+                <p class="cityandDate text" id="ramazanDate">City - Date</p>
+                <h3 class="timeText text" id="time-till-iftar">Time until iftar</h3>
+                <h1 class="timer text" id="timer">Time Left</h3>
+            </div>
+        </div>
+
+        <div class="prayerTimesContainer">
+            <div class="prayerTimesHolder">
+                <p class="timeTitle" id="prayerTimesText">Loading..</p>
+            </div>
+
+            <script id="getPrayerTimes">
+
+                function getPrayerTimes(lat,long,timezone,city){
+                    var date = new Date(); // get todays date
+        
+                    var coordinates = new adhan.Coordinates(lat, long);
+        
+                    // customize prayer times
+                    var params = adhan.CalculationMethod.Turkey();
+
+                    // get prayer times
+                    var prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
+                    var fajrTime = moment(prayerTimes.fajr).tz(timezone).format('HH:mm');
+                    var sunriseTime = moment(prayerTimes.sunrise).tz(timezone).format('HH:mm');
+                    var dhuhrTime = moment(prayerTimes.dhuhr).tz(timezone).format('HH:mm');
+                    var asrTime = moment(prayerTimes.asr).tz(timezone).format('HH:mm');
+                    var maghribTime = moment(prayerTimes.maghrib).tz(timezone).format('HH:mm');
+                    var ishaTime = moment(prayerTimes.isha).tz(timezone).format('HH:mm');
+                    
+                    // update website
+                    startTimer(fajrTime,dhuhrTime,asrTime,maghribTime,ishaTime,city,moment(prayerTimes.maghrib).tz(timezone).format('LL HH:mm:ss'),timezone);
+                }
+
+            </script>
+
+        </div>
+
+
+        <div class="otherContainer">
+            <div class="otherHolder">
+
+                <div class="container" id="surahContainer">
+                    
+                    <div class="titleButton" style="display:flex;justify-content: center;">
+                        <h3 id="surahTitleEng">Surah</h3>
+                        <button onclick="playSurah()" id="surahAudioButton" class="surahAudioButton">▶</button>
+                    </div>
+                    <h3 id="surahTitleEngTranslation" style="margin-top: -10px; font-size: 18px; color: rgb(41, 41, 41);"></h3>
+
+                    <!--<h2 id="surahTitleArb" class="otherTitles surahTitleArb">Surah</h2>-->
+
+                    <p class="otherText surahTextArb" id="surahTextArb" style="margin-top: -10px;"></p>
+
+
+                    <p class="surahTextTranslation" id="surahTextEng"></p>
+                    <!--<hr width="90%" opacity=".5" color="#f12a11">-->
+
+                    <div class="surahReadBttns">
+                        <a id="readSurahbttn" target="_blank">Recite Surah</a>
+                        <a href="quran.html" target="_blank">Recite Quran</a>
+                    </div>
+                </div>
+
+                <div class="container" id="hadithContainer">
+                    <h3 id="hadith">Hadith</h3>
+                    <h3 id="hadithGiver" class="otherTitles"></h3>
+                    <p class="otherText hadithText" id="hadithText"></p>
+                </div>
+
+                <div class="container" id="nameContainer">
+                    
+                    <h3 id="nameTitle"></h3>
+                    <h2 class="otherTitles" id="nameTitleArb" style="font-size: 45px; margin-top: 0px;"></h2>
+                    <!--<hr width="90%" opacity=".5" color="#f12a11">-->
+                    <p class="otherText" id="nameDef" style="margin-top: -5px;"></p>
+                </div>
+
+                <!--<div class="container" id="sahabeContainer">
+                    <h3 id="sahabe">Sahabe</h3>
+                    <h4 id="sahabeName" class="otherTitles">Sahabe Name</h4>
+                    <p class="otherText sahabeName" id="sahabeName">lorem500</p>
+                </div>-->
+
+                <div class="container quranRadioContainer" id="quranRadioContainer">
+                    <h3 id="quran-radio">Quran Radio</h3>
+                
+
+                    <div class="quranRadioContCntr">
+                        <button onclick="playRadio()" class="QrRadioPlay" id="QrRadioPlay">▶</button>
+
+                        <select name="QrDrpdwnBttn" class="QrDrpdwnBttn" id="QrDrpdwnBttn">
+                            <option value="sa">Arabic</option>
+                            <option value="eng">Arabic + English</option>
+                            <option value="tur">Arabic + Turkish</option>
+                            <option value="de">German</option>
+                        </select>
+
+                    </div>
+
+                    <input type="range" class="QrRadioVolume" id="QrRadioVolume" name="QrRadioVolume" min="0" max="100" value="60">
+
+                </div>
+
+                <!--<div class="container" id="quranContainer">
+                    <h3 id="Quran">Quran</h3>
+                    <h4 id="sahabeName" class="otherTitles">Sahabe Name</h4>
+                    <p class="otherText sahabeName" id="sahabeName">lorem500</p>
+                </div>-->
+
+
+                <!--<div class="container" id="datesContainer">
+                    <h3 id="islamic-dates">Islamic Dates</h3>
+                    <div class="datesHolder">
+
+                        <div class="date"><b id="26-january">26 January:</b> <p id="Laylatal-Raghaib">Laylat al-Raghaib</p></div>
+                        <div class="date"><b id="17-february">17 February:</b> <p id="AlIsra’walMi’raj"> Al Isra’ wal Mi’raj</p></div>
+                        <div class="date"><b id="6-march">6 March:</b> <p id="Shab-e-Barat"> Shab-e-Barat</p></div>
+                        <div class="date"><b id="23-march">23 March:</b> <p id="Ramadan-begin"> Ramadan begin</p></div>
+                        <div class="date"><b id="17-april">17 April:</b> <p id="LaylatulQadr"> Laylatul Qadr</p></div>
+                        <div class="date"><b id="20-april">20 April:</b> <p id="EidalFitrEve"> Eid al Fitr Eve</p></div>
+                        <div class="date"><b id="21-23-april">21-23 April:</b> <p id="EidAlFitr"> Eid al Fitr</p></div>
+                        <div class="date"><b id="27-june">27 June:</b> <p id="dayofarafah"> Day of 'Arafah</p></div>
+                        <div class="date"><b id="28-june-1-july">28 June - 1 July:</b> <p id="eidaladha"> Eid al Adha</p></div>
+                        <div class="date"><b id="19-july">19 July:</b> <p id="islamicnewyear"> Islamic New Year</p></div>
+                        <div class="date"><b id="28-july">28 July:</b> <p id="dayofashura"> Day of Ashura</p></div>
+                        <div class="date"><b id="26-september">26 September:</b> <p id="rabialawwal"> Rabi’ Al-Awwal</p></div>
+                    </div>
+                </div>-->
+
+            </div>   
+        </div>
+
+        <div class="footerContainer" style=" background-color: #f12a11;  background-color:rgb(32, 32, 32);height: fit-content;color: white;">
+            <p>Ramadan Mubarak I Made with 🧡 by
+                <a href="https://lemustache.net" target="_blank">LeMustache</a>
+            </p>
+        </div>
+    </div>
+
+    <script id="updateScript">
+        
+
+        // set Adhan Lang
+        function updateSet(){
+            var ezan = new Audio('assets/ezan_sa.mp3');
+
+            var lang = document.querySelector('input[name="lang"]:checked').value;
+
+            var surprise = document.querySelector('input[name="surprise"]:checked')
+            if (surprise){
+                surpriseVal = true
+            }else{
+                surpriseVal = false
+            }
+            
+            return[ezan, lang, surpriseVal]
+        }
+
+        var timesFired = 0
+
+        function updateSalahNames(){
+
+            //lang = document.querySelector('input[name="lang"]:checked').value; // get translated name
+            lang = "eng"
+
+            salahName = {
+                "eng":{
+                    "fajr":"Fajr: ",
+                    "dhuhr":" Dhuhr: ",
+                    "asr":" Asr: ",
+                    "maghrib":" Maghrib: ",
+                    "isha":" Isha: ",
+                },
+
+                "tur":{
+                    "fajr":"Sabah: ",
+                    "dhuhr":" Öğle: ",
+                    "asr":" İkindi: ",
+                    "maghrib":" Akşam: ",
+                    "isha":" Yatsı: ",
+                },
+
+                "de":{
+                    "fajr":"Fadschr: ",
+                    "dhuhr":" Zuhr: ",
+                    "asr":" ʿAsr: ",
+                    "maghrib":" Maghrib: ",
+                    "isha":" 'Ischā': ",
+                }
+            }
+
+            prayerTimes = document.getElementById("prayerTimesText")
+
+            // get the times from the whole text
+            fajrTime = prayerTimes.innerHTML.split(' ')[1]
+            dhuhrTime = prayerTimes.innerHTML.split(' ')[3]
+            asrTime  = prayerTimes.innerHTML.split(' ')[5]
+            maghribTime = prayerTimes.innerHTML.split(' ')[7]
+            ishaTime = prayerTimes.innerHTML.split(' ')[9]
+
+            prayerTimes.innerHTML = salahName[lang]["fajr"] +fajrTime+ salahName[lang]["dhuhr"] +dhuhrTime+ salahName[lang]["asr"] +asrTime+ salahName[lang]["maghrib"] +maghribTime+ salahName[lang]["isha"] +ishaTime
+        }
+
+
+        function startTimer(fajrTime, dhuhrTime, asrTime, maghribTime, ishaTime, userCity,maghribCounterTime,timeZone){  
+            
+            // document.getElementById("prayerTimesText").innerHTML = "Yükleniyor.."
+            // document.getElementById("timer").innerHTML = "Yükleniyor"; // change text to IFTAR VAKTI
+
+            // get Ramadan start date & today's date
+            var ramadanStart = new Date('Mar 11, 2024');
+            var today = new Date();
+            var ramazanDate = Math.round((today.getTime() - ramadanStart.getTime())/ (1000 * 3600 * 24)); // find the difference between the two dates and round it
+             
+            // update website
+            document.getElementById("ramazanDate").innerHTML = userCity + " - " + ramazanDate + ". Day of Ramadan" ;
+
+            // update the salah times so the other function doesnt get them wrong the first time fired
+            document.getElementById("prayerTimesText").innerHTML = "loading " +fajrTime+ " loading " +dhuhrTime+ " loading " +asrTime+ " loading " +maghribTime+ " loading " +ishaTime
+            updateSalahNames()
+
+            //-----------
+            
+            // reset variables
+            timesFired = timesFired+1;
+            var distance = 1;
+            var x;
+
+            // easter egg vars
+            var countdownSound = new Audio("assets/countdown.wav")
+            var reklamSound = new Audio("assets/reklam.mp3")
+
+            countdownSound.pause() 
+            reklamSound.pause()
+            countdownSound.currentTime = 0; // reset sounds
+            reklamSound.currentTime = 0;
+
+            rand = Math.floor(Math.random() * 2)
+            //
+
+            // testing
+            inTesting = false
+            if (inTesting){
+                distance = 15000
+            }
+
+            // Update the count down every 1 second
+            x = setInterval(function() {
+
+                // if fired more than once
+                if (timesFired>1){
+                    timesFired = 0 // set times fired to 0
+                    clearInterval(x);  // reset timer
+                    distance = countDownDate - now;
+                }
+
+                timesFired = 1 // set times fired to 1 to avoid bugs. Don't ask me how that works
+
+                // Set the date we're counting down to
+                var countDownDate = new Date(maghribCounterTime);
+
+                // Get today's date and time in the correct timezone hopefully 
+                var now = new Date(moment.tz(timeZone).format('LL HH:mm:ss'));
+
+                if (!inTesting){
+                    // Find the distance between now and the count down date
+                    distance = countDownDate - now;
+                }else{
+                    distance = distance - 1000
+                }
+
+                // Time calculations for days, hours, minutes and seconds
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Display the result in the element with id="demo"
+                document.getElementById("timer").innerHTML = hours + "h "
+                + minutes + "m " + seconds + "s ";
+                
+                var returned = updateSet() // get ezan
+                var ezan = returned[0]
+
+                var surpriseMe = returned[2]
+
+                if (surpriseMe){
+                    if (seconds==11 && minutes<=0){
+                        countdownSound.play(); 
+                    }
+
+                    if(seconds==5 && rand==0 && minutes<=0){
+                        countdownSound.pause();
+                        reklamSound.play()
+                    }
+                }
+
+                // If the count down is finished, write some text
+                if (distance <= 0) {
+
+                    if (minutes<=0 && minutes>-5){ // if not too much time has past since iftar
+                        countdownSound.pause() // pause all other sounds
+                        reklamSound.pause()
+                        ezan.play(); // play ezan
+                    }
+
+                    iftarTimeLang = {
+                        "eng":"IFTAR",
+                        "tur":"İFTAR",
+                        "de":"IFTAR"
+                    }
+
+                    timesFired = 0
+                    clearInterval(x); // reset timer
+                    document.getElementById("timer").innerHTML = iftarTimeLang[document.querySelector('input[name="lang"]:checked').value]; // change text to IFTAR VAKTI
+                }else{
+                    ezan.pause() 
+                    ezan.currentTime = 0; // reset ezan sound
+                }
+            }, 1000);
+        }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <script src="javascript/Adhan.js"></script>
+    <script src="javascript/moment.js"></script>
+    <script src="javascript/moment-timezone-with-data.js"></script>
+
+    <script id="visitorInfo">  
+        // "https://ipinfo.io"
+            $.get("https://ipinfo.io", function(response) {
+                var userIp = response.ip; // get visitor ip
+
+                // get visitor data
+                var userLat = response.loc.split(",")[0]; // get visitor latitude from location
+                var userLong = response.loc.split(",")[1]; // get visitor longtitude from location
+                var userCity = response.city; 
+                var userTimeZone = response.timezone
+
+                getPrayerTimes(userLat, userLong, userTimeZone, userCity)
+            }, "json")
+    </script>
+
+    <script src="javascript/get-surah.js"></script>
+    <script src="javascript/get-hadith.js"></script>
+    <script src="javascript/get-name.js"></script>
+    <script src="javascript/language.js"></script>
+    <script src="javascript/Quran-radio.js"></script>
+    <script>function translatePage(){translateSurah();translateHadith();translateName();translateAll();updateSalahNames()}</script>
+
+</body>
+
+
+</html>
