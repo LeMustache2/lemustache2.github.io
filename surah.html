@@ -416,7 +416,7 @@
 
        <script id="getTranslations">
             function translate(){
-                fetch('https://api.quran.com/api/v4/quran/translations/131?chapter_number='+surahId)
+                fetch('https://api.quran.com/api/v4/quran/translations/131?chapter_number='+surahId.split("#")[0])
                         .then((translationResponse) => translationResponse.json())
                         .then((translationJson) => translation(translationJson));
             }
