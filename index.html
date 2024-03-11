@@ -540,6 +540,71 @@
         background-color: #f12b1148;
     }
 
+    .popupContainer{
+        width: 98vw;
+        height: 99vh;
+
+        background-color: rgba(48, 48, 48, 0.349);
+        
+        position: absolute;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        justify-self: center;
+        align-self: center;
+    
+    }
+
+    .popupHolder{
+        width: 300px;
+        height: fit-content;
+
+        background-color: gainsboro;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        -webkit-box-shadow: 0px 0px 26px -12px rgba(0, 0, 0, 0.425); 
+        box-shadow: 0px 0px 26px -12px rgba(0, 0, 0, 0.425);
+
+        border-radius: 5px;
+    }
+    
+    .popupHolder button{
+        all: unset;
+     /*   border-left: #f12a11 solid 2px;
+        border-right: #f12a11 solid 2px;*/
+
+        background-color: #f12a11;
+
+        color: white;
+
+        width: 50%;
+        height: 50px;
+        
+        border-radius: 5px;
+
+        margin-bottom: 10px;
+
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+
+        display: flex;
+
+        -webkit-box-shadow: 0px 0px 26px -12px rgba(0, 0, 0, 0.425); 
+        box-shadow: 0px 0px 26px -12px rgba(0, 0, 0, 0.425);
+    }
+
+    .popupHolder button:hover{
+        opacity: .7;
+        cursor: pointer;
+    }
+
  </style>
 
 <body>
@@ -772,6 +837,14 @@
     </div>-->
     
     <div class="mainBody">
+
+        <div class="popupContainer" id="popup">
+            <div class="popupHolder">
+                <h3 style="color: #f12a11; font-size: 20px;">Please Accept Notifications</h3>
+                <p>So we can inform you when its time to break your fast</p>
+                <button onclick="askNotPermission()">Okay</button>
+            </div>
+        </div>
 
         <div class="timeTillContainer">
             <div class="timeTillHolder">
@@ -1160,6 +1233,21 @@
 
                 getPrayerTimes(userLat, userLong, userTimeZone, userCity)
             }, "json")
+    </script>
+
+    <script>
+        asked = 0
+        function askNotPermission(){
+            Notification.requestPermission().then((result) => {
+                if(result=="denied" && asked<=1){
+                    document.getElementById("popup").style.display = "flex"
+                    asked = asked+1
+                }else{
+                    document.getElementById("popup").style.display = "none"
+                }
+            });
+        }
+        askNotPermission()
     </script>
 
     <script src="javascript/get-surah.js"></script>
