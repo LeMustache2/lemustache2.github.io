@@ -182,7 +182,7 @@
 
                 if (k<=surahLength && playing==false){
 
-                    $.get("https://api.quran.com/api/v4/recitations/2/by_ayah/"+surahId+":"+k, function(response) { // get surah audio    
+                    $.get("https://api.quran.com/api/v4/recitations/2/by_ayah/"+surahId.split("#")[0]+":"+k, function(response) { // get surah audio    
                             //console.log("https://verses.quran.com/"+response["audio_files"][0]["url"])
                             ayahLinks.push("https://verses.quran.com/"+response["audio_files"][0]["url"])
 
@@ -267,7 +267,7 @@
 
             function playAyah(ayahId){
 
-            $.get("https://api.quran.com/api/v4/recitations/2/by_ayah/"+surahId+":"+ayahId, function(response) { // get surah audio        
+            $.get("https://api.quran.com/api/v4/recitations/2/by_ayah/"+surahId.split("#")[0]+":"+ayahId, function(response) { // get surah audio        
                 console.log(response)
 
             if (playing==false){ // play
@@ -416,7 +416,7 @@
 
        <script id="getTranslations">
             function translate(){
-                fetch('https://api.quran.com/api/v4/quran/translations/131?chapter_number='+surahId.split("#")[0])
+                fetch('https://api.quran.com/api/v4/quran/translations/131?chapter_number='+surahId)
                         .then((translationResponse) => translationResponse.json())
                         .then((translationJson) => translation(translationJson));
             }
