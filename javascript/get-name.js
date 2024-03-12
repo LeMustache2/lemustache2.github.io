@@ -8,11 +8,12 @@ function translateName(){
         dataInd = Math.floor(Math.random() * data.length)
 
        document.getElementById("nameTitleArb").innerHTML = data[dataInd].name
-    })
 
-    $.getJSON("/database/names-"+lang+".json",function(data){
-        document.getElementById("nameTitle").innerHTML = data[dataInd].index+" "+data[dataInd].name
-        document.getElementById("nameDef").innerHTML = data[dataInd].text
+       $.getJSON("/database/names-"+lang+".json",function(data){
+            document.getElementById("nameTitle").innerHTML = data[dataInd].index+" "+data[dataInd].name
+            document.getElementById("nameDef").innerHTML = data[dataInd].text
+        })
+    
     })
 }
 
