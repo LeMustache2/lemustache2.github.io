@@ -1109,7 +1109,7 @@
             var ramazanDate = Math.round((today.getTime() - ramadanStart.getTime())/ (1000 * 3600 * 24)); // find the difference between the two dates and round it
              
             // update website
-            document.getElementById("ramazanDate").innerHTML = userCity + " - " + ramazanDate + ". Day of Ramadan" ;
+            document.getElementById("ramazanDate").innerHTML =  "Oberhausen - " + ramazanDate + ". Day of Ramadan" ;
 
             // update the salah times so the other function doesnt get them wrong the first time fired
             document.getElementById("prayerTimesText").innerHTML = "loading " +fajrTime+ " loading " +dhuhrTime+ " loading " +asrTime+ " loading " +maghribTime+ " loading " +ishaTime
@@ -1233,7 +1233,7 @@
                 var userCity = response.city; 
                 var userTimeZone = response.timezone
 
-                getPrayerTimes(userLat, userLong, userTimeZone, userCity)
+                getPrayerTimes("51.333", "6.85", userTimeZone, userCity)
             }, "json")
     </script>
 
